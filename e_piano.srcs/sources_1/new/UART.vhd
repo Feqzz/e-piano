@@ -1,7 +1,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-entity uart is
+entity UART is
    generic(
      -- Default setting:
      -- 19,200 baud, 8 data bis, 1 stop its, 2^2 FIFO
@@ -15,10 +15,11 @@ entity uart is
    port(
       clk, reset: in std_logic;
       rx: in std_logic;
-      r_data: out std_logic_vector(7 downto 0)
+      r_data: out std_logic_vector(7 downto 0);
+      rx_done : out STD_LOGIC
    );
-end uart;
-architecture str_arch of uart is
+end UART;
+architecture str_arch of UART is
    signal tick: std_logic;
    signal rx_done_tick: std_logic;
    signal rx_data_out: std_logic_vector(7 downto 0);
@@ -50,4 +51,7 @@ begin
          end if;
       end process;
       r_data <= led_reg;
+      
+      rx_done <= rx_done_tick;
+      
 end str_arch;
