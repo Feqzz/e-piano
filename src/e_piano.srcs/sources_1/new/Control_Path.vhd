@@ -55,7 +55,7 @@ function asciiIsValid(value : STD_LOGIC_VECTOR (7 downto 0)) return BOOLEAN is
 begin
     return (
         value = "01100001" or 
-        value = "01100111" or
+        value = "01110111" or
         value = "01110011" or 
         value = "01100101" or 
         value = "01100100" or 
@@ -80,7 +80,7 @@ begin
         value = "01001010" or 
         value = "01110000" or--p
         value = "00100000");--space
-    
+
 end function;
 
 begin
