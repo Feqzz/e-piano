@@ -48,7 +48,8 @@ int_cout <= 261 when int_cin = 97 else
             830 when int_cin = 89 else
             880 when int_cin = 72 else
             923 when int_cin = 85 else
-            987 when int_cin = 74;
+            987 when int_cin = 74 else
+            0;
 
 cout <= std_logic_vector(to_unsigned(int_cout, 10));
 

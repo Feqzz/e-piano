@@ -55,10 +55,10 @@ begin
 end process;
 
 -- next-state logic
-r_next <= (others => '0') when r_reg =  unsigned(cin) - 1 else
+r_next <= (others => '0') when r_reg =  unsigned(cin) else
          r_reg + 1;
 -- output logic
 
-max_tick <= '1' when r_reg = unsigned(cin) - 1 else '0';
+max_tick <= '1' when r_reg = unsigned(cin) else '0';
 
 end Behavioral;
