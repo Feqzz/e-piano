@@ -36,6 +36,7 @@ entity Top_Level is
            rst : in STD_LOGIC;
            rxd : in STD_LOGIC;
            play : in STD_LOGIC;
+           LED: out std_logic_vector(7 downto 0);
            music : out STD_LOGIC);
 end Top_Level;
 
@@ -59,6 +60,8 @@ port map (increment => internal_counter_increment, clk => clk, rst => internal_c
 ram: entity work.RAM(Behavioral)
 port map (address => internal_counter_address, cin => internal_uart_out, cout => internal_ram_out,
     write => internal_ram_write, clk => clk, rst => rst);
+    
+LED <= internal_ram_out;
 
 timer: entity work.Timer(Behavioral)
 port map (timer_on => internal_timer_on, clk => clk, rst => rst, timer_done => internal_timer_done);
