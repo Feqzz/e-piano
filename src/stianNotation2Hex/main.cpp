@@ -26,7 +26,7 @@ int main(int argc, char** argv)
 	}
 
 	std::fstream fileStream;
-	std::string output = "echo -e '";
+	std::string output = "echo -en '";
 
 	fileStream.open(argument);
 
@@ -53,7 +53,7 @@ int main(int argc, char** argv)
 		}
 	}
 
-	output += "' < /dev/ttyUSB1";
+	output += "' > /dev/ttyUSB1";
 
 	std::cout << output << std::endl;
 
