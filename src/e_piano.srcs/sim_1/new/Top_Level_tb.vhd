@@ -126,7 +126,7 @@ begin
    
    play_tb <= '1';
    wait for 1ms;
-   rst_tb <= '1';
+   --rst_tb <= '1';
    wait;
     
     

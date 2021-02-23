@@ -45,7 +45,7 @@ architecture Behavioral of Top_Level is
 signal internal_uart_out : STD_LOGIC_VECTOR (7 downto 0);
 signal internal_ram_out : STD_LOGIC_VECTOR (7 downto 0);
 signal internal_counter_address : STD_LOGIC_VECTOR (9 downto 0);
-signal internal_code_converter_out : STD_LOGIC_VECTOR (9 downto 0);
+signal internal_code_converter_out : STD_LOGIC_VECTOR (17 downto 0);
 signal internal_rx_done, internal_counter_increment, internal_ram_write, internal_timer_on,
     internal_timer_done, internal_mod_m_counter_max_tick, internal_mute, internal_counter_clear : STD_LOGIC;
 

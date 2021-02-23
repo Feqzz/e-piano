@@ -32,7 +32,7 @@ use IEEE.NUMERIC_STD.ALL;
 --use UNISIM.VComponents.all;
 
 entity New_Mod_M_Counter is
-    Port ( cin : in STD_LOGIC_VECTOR (9 downto 0);
+    Port ( cin : in STD_LOGIC_VECTOR (17 downto 0);
            clk : in STD_LOGIC;
            rst : in STD_LOGIC;
            max_tick : out STD_LOGIC);
@@ -40,8 +40,8 @@ end New_Mod_M_Counter;
 
 architecture Behavioral of New_Mod_M_Counter is
 
-signal r_reg: unsigned (9 downto 0);
-signal r_next: unsigned (9 downto 0);
+signal r_reg: unsigned (17 downto 0);
+signal r_next: unsigned (17 downto 0);
 
 begin
 
