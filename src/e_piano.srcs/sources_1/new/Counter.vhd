@@ -53,7 +53,7 @@ begin
     end if;
 end process;
 
-process (increment)
+process (increment, q_reg)
 begin
     if (increment = '1') then
         q_next <= q_reg + 1;

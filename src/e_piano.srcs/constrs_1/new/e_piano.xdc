@@ -72,10 +72,10 @@ set_property PACKAGE_PIN V14 [get_ports {LED[7]}]
 #	set_property IOSTANDARD LVCMOS33 [get_ports {LED[12]}]
 #set_property PACKAGE_PIN N3 [get_ports {LED[13]}]					
 #	set_property IOSTANDARD LVCMOS33 [get_ports {LED[13]}]
-#set_property PACKAGE_PIN P1 [get_ports {LED[14]}]					
-#	set_property IOSTANDARD LVCMOS33 [get_ports {LED[14]}]
-set_property PACKAGE_PIN L1 [get_ports music]					
-	set_property IOSTANDARD LVCMOS33 [get_ports music]
+set_property PACKAGE_PIN P1 [get_ports {music}]					
+	set_property IOSTANDARD LVCMOS33 [get_ports {music}]
+set_property PACKAGE_PIN L1 [get_ports {music}]					
+	set_property IOSTANDARD LVCMOS33 [get_ports {music}]
 	
 	
 ##7 segment display

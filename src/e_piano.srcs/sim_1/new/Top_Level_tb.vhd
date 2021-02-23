@@ -53,7 +53,7 @@ constant rx_data_ascii_a: std_logic_vector(7 downto 0) := x"61"; -- receive a
 constant rx_data_ascii_J: std_logic_vector(7 downto 0) := x"4a"; -- receive b
 constant rx_data_ascii_c: std_logic_vector(7 downto 0) := x"63"; -- receive c
 constant rx_data_ascii_d: std_logic_vector(7 downto 0) := x"64"; -- receive d
-constant rx_data_ascii_e: std_logic_vector(7 downto 0) := x"65"; -- receive e
+constant rx_data_ascii_x: std_logic_vector(7 downto 0) := x"78"; -- receive e
 
 begin
 
@@ -95,8 +95,38 @@ begin
     end loop;
     rxd_tb <= '1'; -- stop bit = 1
    wait for 1ms;
-    
+   
+   rxd_tb <= '0'; -- start bit = 0
+    wait for bit_period;
+    for i in 0 to 7 loop
+        rxd_tb <= rx_data_ascii_x(i);   -- 8 data bits
+        wait for bit_period;
+    end loop;
+    rxd_tb <= '1'; -- stop bit = 1
+   wait for 1ms;
+   
+   play_tb <= '0';
+    rxd_tb <= '0'; -- start bit = 0
+    wait for bit_period;
+    for i in 0 to 7 loop
+        rxd_tb <= rx_data_ascii_a(i);   -- 8 data bits
+        wait for bit_period;
+    end loop;
+    rxd_tb <= '1'; -- stop bit = 1
+   wait for 1ms;
+   
+   rxd_tb <= '0'; -- start bit = 0
+    wait for bit_period;
+    for i in 0 to 7 loop
+        rxd_tb <= rx_data_ascii_J(i);   -- 8 data bits
+        wait for bit_period;
+    end loop;
+    rxd_tb <= '1'; -- stop bit = 1
+   wait for 1ms;
+   
    play_tb <= '1';
+   wait for 1ms;
+   rst_tb <= '1';
    wait;
     
     
