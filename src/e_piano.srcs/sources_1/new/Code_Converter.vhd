@@ -26,7 +26,7 @@ begin
 int_cin <= to_integer(unsigned(cin));
 
 int_cout <= 191570 when int_cin = 97 else --261  100,000,000/2*261
-            180505 when int_cin = 103 else -- 277
+            180505 when int_cin = 119 else -- 277
             170648 when int_cin = 115 else -- 293
             160771 when int_cin = 101 else -- 311
             151975 when int_cin = 100 else -- 329

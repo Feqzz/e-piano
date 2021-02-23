@@ -56,7 +56,7 @@ begin
     return (value = "01100001" or value = "01100111" or value = "01110011" or value = "01100101" or value = "01100100"
         or value = "01100110" or value = "01110100" or value = "01100111" or value = "01111001" or value = "01101000" or value = "01110101" or value = "01101010"
         or value = "01000001" or value = "01000111" or value = "01010011" or value = "01000101" or value = "01000100" or value = "01000110" or value = "01010100"
-        or value = "01000111" or value = "01011001" or value = "01001000" or value = "01010101" or value = "01001010" or value = "000100000");
+        or value = "01000111" or value = "01011001" or value = "01001000" or value = "01010101" or value = "01001010" or value = "00100000");
 end function;
 
 begin
