@@ -78,7 +78,9 @@ begin
         value = "01001000" or 
         value = "01010101" or 
         value = "01001010" or 
-        value = "00100000");
+        value = "01110000" or--p
+        value = "00100000");--space
+    
 end function;
 
 begin
