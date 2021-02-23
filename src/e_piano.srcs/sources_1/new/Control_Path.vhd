@@ -24,7 +24,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
---use IEEE.NUMERIC_STD.ALL;
+use IEEE.NUMERIC_STD.ALL;
 
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx leaf cells in this code.
@@ -52,34 +52,37 @@ type FSM is (IDLE, RECORDING, PLAYING);
 signal state_reg, state_next : FSM;
 
 function asciiIsValid(value : STD_LOGIC_VECTOR (7 downto 0)) return BOOLEAN is
+
+variable int_value : Integer := to_integer(unsigned(value));
+
 begin
     return (
-        value = "01100001" or 
-        value = "01110111" or
-        value = "01110011" or 
-        value = "01100101" or 
-        value = "01100100" or 
-        value = "01100110" or 
-        value = "01110100" or 
-        value = "01100111" or 
-        value = "01111001" or 
-        value = "01101000" or 
-        value = "01110101" or 
-        value = "01101010" or 
-        value = "01000001" or 
-        value = "01000111" or 
-        value = "01010011" or 
-        value = "01000101" or 
-        value = "01000100" or 
-        value = "01000110" or 
-        value = "01010100" or 
-        value = "01000111" or 
-        value = "01011001" or 
-        value = "01001000" or 
-        value = "01010101" or 
-        value = "01001010" or 
-        value = "01110000" or--p
-        value = "00100000");--space
+        int_value = 97 or -- a
+        int_value = 119 or -- w
+        int_value = 115 or -- s
+        int_value = 101 or -- e
+        int_value = 100 or -- d
+        int_value = 102 or -- f
+        int_value = 116 or -- t
+        int_value = 103 or -- g
+        int_value = 121 or -- y
+        int_value = 104 or -- h
+        int_value = 117 or -- u
+        int_value = 106 or -- j
+        int_value = 65 or -- A
+        int_value = 87 or -- W
+        int_value = 83 or -- S
+        int_value = 69 or -- E
+        int_value = 68 or -- D
+        int_value = 70 or -- F
+        int_value = 84 or -- T
+        int_value = 71 or -- G
+        int_value = 89 or -- Y
+        int_value = 72 or -- H
+        int_value = 85 or -- U
+        int_value = 74 or -- J
+        int_value = 112 or --p
+        int_value = 32); --space
 end function;
 
 begin
