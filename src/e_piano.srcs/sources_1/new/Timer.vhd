@@ -12,8 +12,8 @@ use IEEE.NUMERIC_STD.ALL;
 
 entity Timer is
     generic (
-           N: integer := 26;     -- number of bits
-           M: integer := 38461538); -- mod-M
+           N: integer := 23;     -- number of bits -- before 26
+           M: integer := 4761904); -- mod-M -- before: 38461538
     Port ( timer_on : in STD_LOGIC;
            clk : in STD_LOGIC;
            rst : in STD_LOGIC;
