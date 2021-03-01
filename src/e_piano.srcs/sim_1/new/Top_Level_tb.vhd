@@ -50,9 +50,14 @@ constant clk_period : time := 10 ns;
 constant bit_period : time := 52083ns; -- time for 1 bit.. 1bit/19200bps = 52.08 us
 
 constant rx_data_ascii_a: std_logic_vector(7 downto 0) := x"61"; -- receive a
-constant rx_data_ascii_J: std_logic_vector(7 downto 0) := x"4a"; -- receive b
+constant rx_data_ascii_s: std_logic_vector(7 downto 0) := x"73"; -- receive a
+constant rx_data_ascii_d: std_logic_vector(7 downto 0) := x"64"; -- receive a
+constant rx_data_ascii_f: std_logic_vector(7 downto 0) := x"66"; -- receive a
+constant rx_data_ascii_g: std_logic_vector(7 downto 0) := x"67"; -- receive a
+constant rx_data_ascii_h: std_logic_vector(7 downto 0) := x"68"; -- receive a
+constant rx_data_ascii_j: std_logic_vector(7 downto 0) := x"6A"; -- receive a
+
 constant rx_data_ascii_c: std_logic_vector(7 downto 0) := x"63"; -- receive c
-constant rx_data_ascii_d: std_logic_vector(7 downto 0) := x"64"; -- receive d
 constant rx_data_ascii_x: std_logic_vector(7 downto 0) := x"78"; -- receive e
 
 begin
@@ -90,7 +95,7 @@ begin
    rxd_tb <= '0'; -- start bit = 0
     wait for bit_period;
     for i in 0 to 7 loop
-        rxd_tb <= rx_data_ascii_J(i);   -- 8 data bits
+        rxd_tb <= rx_data_ascii_s(i);   -- 8 data bits
         wait for bit_period;
     end loop;
     rxd_tb <= '1'; -- stop bit = 1
@@ -99,7 +104,7 @@ begin
    rxd_tb <= '0'; -- start bit = 0
     wait for bit_period;
     for i in 0 to 7 loop
-        rxd_tb <= rx_data_ascii_x(i);   -- 8 data bits
+        rxd_tb <= rx_data_ascii_d(i);   -- 8 data bits
         wait for bit_period;
     end loop;
     rxd_tb <= '1'; -- stop bit = 1
@@ -109,7 +114,7 @@ begin
     rxd_tb <= '0'; -- start bit = 0
     wait for bit_period;
     for i in 0 to 7 loop
-        rxd_tb <= rx_data_ascii_a(i);   -- 8 data bits
+        rxd_tb <= rx_data_ascii_f(i);   -- 8 data bits
         wait for bit_period;
     end loop;
     rxd_tb <= '1'; -- stop bit = 1
@@ -118,7 +123,25 @@ begin
    rxd_tb <= '0'; -- start bit = 0
     wait for bit_period;
     for i in 0 to 7 loop
-        rxd_tb <= rx_data_ascii_J(i);   -- 8 data bits
+        rxd_tb <= rx_data_ascii_g(i);   -- 8 data bits
+        wait for bit_period;
+    end loop;
+    rxd_tb <= '1'; -- stop bit = 1
+   wait for 1ms;
+   
+   rxd_tb <= '0'; -- start bit = 0
+    wait for bit_period;
+    for i in 0 to 7 loop
+        rxd_tb <= rx_data_ascii_h(i);   -- 8 data bits
+        wait for bit_period;
+    end loop;
+    rxd_tb <= '1'; -- stop bit = 1
+   wait for 1ms;
+   
+   rxd_tb <= '0'; -- start bit = 0
+    wait for bit_period;
+    for i in 0 to 7 loop
+        rxd_tb <= rx_data_ascii_j(i);   -- 8 data bits
         wait for bit_period;
     end loop;
     rxd_tb <= '1'; -- stop bit = 1

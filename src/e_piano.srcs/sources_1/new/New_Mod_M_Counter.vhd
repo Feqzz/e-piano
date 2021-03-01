@@ -49,16 +49,16 @@ process(clk, rst)
 begin
     if (rst = '1') then
         r_reg <= (others => '0');
-    elsif (clk'event and clk='1') then
+    elsif (rising_edge(clk)) then
         r_reg <= r_next;
     end if;
 end process;
 
 -- next-state logic
-r_next <= (others => '0') when r_reg =  unsigned(cin) else
+r_next <= (others => '0') when r_reg =  unsigned(cin) - 1 else
          r_reg + 1;
 -- output logic
 
-max_tick <= '1' when r_reg = unsigned(cin) else '0';
+max_tick <= '1' when r_reg = unsigned(cin) - 1 else '0';
 
 end Behavioral;

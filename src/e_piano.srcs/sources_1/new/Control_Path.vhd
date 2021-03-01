@@ -43,6 +43,7 @@ entity Control_Path is
            ascii_t : in STD_LOGIC_VECTOR (7 downto 0);
            td_on : out STD_LOGIC;
            td_done : in STD_LOGIC;
+           function_out : out STD_LOGIC;
            mute : out STD_LOGIC);
 end Control_Path;
 
@@ -50,6 +51,8 @@ architecture Behavioral of Control_Path is
 
 type FSM is (IDLE, RECORDING, PLAYING);
 signal state_reg, state_next : FSM;
+signal int_value : Integer;
+
 
 function asciiIsValid(value : STD_LOGIC_VECTOR (7 downto 0)) return BOOLEAN is
 
@@ -82,7 +85,8 @@ begin
         int_value = 85 or -- U
         int_value = 74 or -- J
         int_value = 112 or --p
-        int_value = 32); --space
+        int_value = 32 or
+        int_value = 120); --space
 end function;
 
 begin
@@ -96,6 +100,9 @@ begin
 	end if;
 end process;
 
+int_value <= to_integer(unsigned(ascii_r));
+
+
 process (state_reg, rx_done, play, td_done)
 begin
     state_next <= state_reg;
@@ -108,7 +115,7 @@ begin
     case state_reg is
         when IDLE =>
             clr_counter <= '1';
-            if (rx_done = '1') then
+            if (rx_done = '1' and asciiIsValid(ascii_r)) then
                 if (ascii_r = "01111000") then -- the ascii value is 'x'
                     state_next <= RECORDING;
                 else
@@ -120,9 +127,37 @@ begin
                 clr_counter <= '1';
                 state_next <= PLAYING;
             else
-                if (rx_done = '1' and asciiIsValid(ascii_r)) then
-                    ram_write <= '1';
-                    inc_counter <= '1';
+                if (rx_done = '1' and asciiIsValid(ascii_r) = True) then
+                    if (int_value = 97 or -- a
+                        int_value = 119 or -- w
+                        int_value = 115 or -- s
+                        int_value = 101 or -- e
+                        int_value = 100 or -- d
+                        int_value = 102 or -- f
+                        int_value = 116 or -- t
+                        int_value = 103 or -- g
+                        int_value = 121 or -- y
+                        int_value = 104 or -- h
+                        int_value = 117 or -- u
+                        int_value = 106 or -- j
+                        int_value = 65 or -- A
+                        int_value = 87 or -- W
+                        int_value = 83 or -- S
+                        int_value = 69 or -- E
+                        int_value = 68 or -- D
+                        int_value = 70 or -- F
+                        int_value = 84 or -- T
+                        int_value = 71 or -- G
+                        int_value = 89 or -- Y
+                        int_value = 72 or -- H
+                        int_value = 85 or -- U
+                        int_value = 74 or -- J
+                        int_value = 112 or --p
+                        int_value = 32) then
+                        
+                            ram_write <= '1';
+                            inc_counter <= '1';
+                    end if;
                 end if;
             end if;
         when PLAYING =>
@@ -149,5 +184,8 @@ begin
         end case;
                     
 end process;
+
+function_out <= '1' when (asciiIsValid(ascii_r)) else
+                '0';
 
 end Behavioral;
