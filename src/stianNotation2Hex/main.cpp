@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iomanip>
 #include <sstream>
+#include <bits/stdc++.h> 
 
 void printUsage()
 {
@@ -26,7 +27,7 @@ int main(int argc, char** argv)
 	}
 
 	std::fstream fileStream;
-	std::string output = "echo -en '";
+	std::string output = "sudo chmod 666 /dev/ttyUSB1 && stty -F /dev/ttyUSB1 19200 && echo -en '";
 
 	fileStream.open(argument);
 
@@ -55,7 +56,8 @@ int main(int argc, char** argv)
 
 	output += "' > /dev/ttyUSB1";
 
-	std::cout << output << std::endl;
+//	std::cout << output << std::endl;
+	system(output.c_str());
 
 	fileStream.close();
 	return 0;
