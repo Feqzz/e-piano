@@ -87,8 +87,6 @@ architecture Behavioral of Control_Path is
 --     int_value = 120); --x
 -- end function;
 
-begin
-
     process (clk, rst)
     begin
         if (rst = '1') then
@@ -113,12 +111,12 @@ begin
             when IDLE =>
                 clr_counter <= '1';
                 if (rx_done = '1') then
-                    ram_write <= '1';
                     if (ascii_r = "01111000") then -- the ascii value is 'x'
                         state_next <= RECORDING;
+                    else
+                        ram_write <= '1';
                     end if;
                 end if;
-
             when RECORDING =>
                 if (play = '1') then
                     clr_counter <= '1';
