@@ -49,7 +49,7 @@ int_cout <= 191570 when int_cin = 97 else --261  100,000,000/2*261
             56818 when int_cin = 72 else -- 880
             54171 when int_cin = 85 else -- 923
             50658 when int_cin = 74 else -- 987
-            2; --Cannot be zero, because of counter counts to n-1 
+            191570; --Cannot be zero, because of counter counts to n-1 
 
 cout <= std_logic_vector(to_unsigned(int_cout, 18));
 
