@@ -86,7 +86,7 @@ architecture Behavioral of Control_Path is
 --     int_value = 32 or --space
 --     int_value = 120); --x
 -- end function;
-
+begin
     process (clk, rst)
     begin
         if (rst = '1') then
