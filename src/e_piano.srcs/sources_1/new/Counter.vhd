@@ -35,12 +35,12 @@ entity Counter is
     Port ( increment : in STD_LOGIC;
            clk : in STD_LOGIC;
            rst : in STD_LOGIC;
-           cout : out STD_LOGIC_VECTOR (9 downto 0));
+           cout : out STD_LOGIC_VECTOR (5 downto 0));
 end Counter;
 
 architecture Behavioral of Counter is
 
-signal q_reg, q_next : unsigned (9 downto 0) := (others => '0');
+signal q_reg, q_next : unsigned (5 downto 0) := (others => '0');
 
 begin
 
@@ -49,18 +49,14 @@ begin
     if (rst = '1') then
         q_reg <= (others => '0');
     elsif (rising_edge(clk)) then
-        q_reg <= q_next;
+        if(increment = '1') then
+            q_reg <= q_next;
+        end if;
     end if;
 end process;
 
-process (increment, q_reg)
-begin
-    if (increment = '1') then
-        q_next <= q_reg + 1;
-    else
-        q_next <= q_reg;
-    end if;
-end process;
+q_next <= (others => '0') when q_reg = 64-1 else
+                  q_reg + 1;
 
 cout <= STD_LOGIC_VECTOR(q_reg);
 

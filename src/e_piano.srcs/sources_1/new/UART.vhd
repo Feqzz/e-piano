@@ -42,7 +42,7 @@ begin
             led_reg <= led_next;
          end if;
       end process;
-      process(rx_done_tick, rx_data_out)
+      process(rx_done_tick, rx_data_out, led_reg)
       begin
          if(rx_done_tick = '1') then
             led_next <= rx_data_out;
