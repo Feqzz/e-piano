@@ -138,7 +138,7 @@ begin
                     if (ascii_t = "11111111") then --empty ram value
                         clr_counter <= '1';
                     else
-                        if (ascii_t = "00100000") then -- ascii space which means pause
+                        if (ascii_t = "01110000") then -- ascii p which means pause
                             mute <= '1';
                             td_on <= '1';
                             if (td_done = '1') then
