@@ -43,7 +43,6 @@ entity Control_Path is
            ascii_t : in STD_LOGIC_VECTOR (7 downto 0);
            td_on : out STD_LOGIC;
            td_done : in STD_LOGIC;
-           function_out : out STD_LOGIC;
            mute : out STD_LOGIC);
 end Control_Path;
 

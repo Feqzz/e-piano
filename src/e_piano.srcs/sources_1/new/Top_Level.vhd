@@ -37,8 +37,6 @@ entity Top_Level is
            rxd : in STD_LOGIC;
            play : in STD_LOGIC;
            LED: out std_logic_vector(7 downto 0);
-           max_tick_counter : out STD_LOGIC;
-           function_out : out STD_LOGIC;
            music : out STD_LOGIC);
 end Top_Level;
 
@@ -46,7 +44,7 @@ architecture Behavioral of Top_Level is
 
 signal internal_uart_out : STD_LOGIC_VECTOR (7 downto 0);
 signal internal_ram_out : STD_LOGIC_VECTOR (7 downto 0);
-signal internal_counter_address : STD_LOGIC_VECTOR (5 downto 0);
+signal internal_counter_address : STD_LOGIC_VECTOR (8 downto 0);
 signal internal_code_converter_out : STD_LOGIC_VECTOR (17 downto 0);
 signal internal_rx_done, internal_counter_increment, internal_ram_write, internal_timer_on,
     internal_timer_done, internal_mod_m_counter_max_tick, internal_mute, internal_counter_clear : STD_LOGIC;
@@ -81,10 +79,10 @@ port map (mute => internal_mute, tick => internal_mod_m_counter_max_tick, q => m
 control_path: entity work.Control_Path(Behavioral)
 port map (play => play, clk => clk, rst => rst, rx_done => internal_rx_done, ascii_r => internal_uart_out,
     clr_counter => internal_counter_clear, inc_counter => internal_counter_increment, ram_write => internal_ram_write,
-    ascii_t => internal_ram_out, td_on => internal_timer_on, td_done => internal_timer_done, mute => internal_mute, function_out => function_out);
+    ascii_t => internal_ram_out, td_on => internal_timer_on, td_done => internal_timer_done, mute => internal_mute);
 
 
-max_tick_counter <= internal_mod_m_counter_max_tick;
+
 
 
 end Behavioral;

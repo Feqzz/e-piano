@@ -32,7 +32,7 @@ use IEEE.NUMERIC_STD.ALL;
 --use UNISIM.VComponents.all;
 
 entity RAM is
-    Port ( address : in STD_LOGIC_VECTOR (5 downto 0);
+    Port ( address : in STD_LOGIC_VECTOR (8 downto 0);
            cin : in STD_LOGIC_VECTOR (7 downto 0);
            cout : out STD_LOGIC_VECTOR (7 downto 0);
            write : in STD_LOGIC;
@@ -42,7 +42,7 @@ end RAM;
 
 architecture Behavioral of RAM is
 
-type memory is array (0 to 64-1) of std_logic_vector (7 downto 0);
+type memory is array (0 to 512-1) of std_logic_vector (7 downto 0);
 signal ram : memory := (others => (others => '1'));
 
 begin
