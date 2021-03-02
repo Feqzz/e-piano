@@ -49,79 +49,119 @@ end Control_Path;
 
 architecture Behavioral of Control_Path is
 
-type FSM is (IDLE, RECORDING, PLAYING);
-signal state_reg, state_next : FSM;
-signal int_value : Integer;
+    type FSM is (IDLE, RECORDING, WRITING, PLAYING);
+    signal state_reg, state_next : FSM;
+    signal int_value : Integer;
 
+
+    -- function asciiIsValid(value : STD_LOGIC_VECTOR (7 downto 0)) return BOOLEAN is
+    --     variable int_value : Integer := to_integer(unsigned(value));
+    -- begin
+    --     return (
+    --     int_value = 97 or -- a
+    --     int_value = 119 or -- w
+    --     int_value = 115 or -- s
+    --     int_value = 101 or -- e
+    --     int_value = 100 or -- d
+    --     int_value = 102 or -- f
+    --     int_value = 116 or -- t
+    --     int_value = 103 or -- g
+    --     int_value = 121 or -- y
+    --     int_value = 104 or -- h
+    --     int_value = 117 or -- u
+    --     int_value = 106 or -- j
+    --     int_value = 65 or -- A
+    --     int_value = 87 or -- W
+    --     int_value = 83 or -- S
+    --     int_value = 69 or -- E
+    --     int_value = 68 or -- D
+    --     int_value = 70 or -- F
+    --     int_value = 84 or -- T
+    --     int_value = 71 or -- G
+    --     int_value = 89 or -- Y
+    --     int_value = 72 or -- H
+    --     int_value = 85 or -- U
+    --     int_value = 74 or -- J
+    --     int_value = 112 or --p
+    --     int_value = 32 or --space
+    --     int_value = 120); --x
+    -- end function;
 
 begin
 
-process (clk, rst)
-begin
-    if (rst = '1') then
-        state_reg <= IDLE;
-	elsif rising_edge(clk) then
-		state_reg <= state_next;
-	end if;
-end process;
+    process (clk, rst)
+    begin
+        if (rst = '1') then
+            state_reg <= IDLE;
+        elsif rising_edge(clk) then
+            state_reg <= state_next;
+        end if;
+    end process;
 
-int_value <= to_integer(unsigned(ascii_r));
+    int_value <= to_integer(unsigned(ascii_r));
 
 
-process (state_reg, ascii_r, rx_done, play, td_done)
-begin
-    state_next <= state_reg;
-    mute <= '0';
-    td_on <= '0';
-    ram_write <= '0';
-    inc_counter <= '0';
-    clr_counter <= '0';
-    
-    case state_reg is
-        when IDLE =>
-            clr_counter <= '1';
-            if (rx_done = '1') then
-                if (ascii_r = "01111000") then -- the ascii value is 'x'
-                    state_next <= RECORDING;
-                else
+    process (state_reg, ascii_r, rx_done, play, td_done, ascii_t)
+    begin
+        state_next <= state_reg;
+        mute <= '0';
+        td_on <= '0';
+        ram_write <= '0';
+        inc_counter <= '0';
+        clr_counter <= '0';
+
+        case state_reg is
+            --Plays each valid note until another valid note is entered
+            --X forwards to recording state
+            when IDLE =>
+                clr_counter <= '1';
+                if (rx_done = '1') then
                     ram_write <= '1';
+                    if (ascii_r = "01111000") then -- the ascii value is 'x'
+                        state_next <= RECORDING;
+                    end if;
                 end if;
-            end if;
---        when RECORDING =>
---            if (play = '1') then
---                clr_counter <= '1';
---                state_next <= PLAYING;
---            else
---                if (rx_done = '1') then
---                    ram_write <= '1';
---                    inc_counter <= '1';
---                end if;
---            end if;
---        when PLAYING =>
---            if (play = '1') then
---                if (ascii_t = "11111111") then --empty ram value
---                    clr_counter <= '1';
---                else
---                    if (ascii_t = "00100000") then -- ascii space which means pause
---                        mute <= '1';
---                        td_on <= '1';
---                        if (td_done = '1') then
---                            inc_counter <= '1';
---                        end if;
---                    else
---                        td_on <= '1';
---                        if (td_done = '1') then
---                            inc_counter <= '1';
---                        end if;
---                    end if;
---                end if;
---            else
---                state_next <= IDLE;
---            end if;
-            when others =>
+            --If valid note is received, Counter is incremented and state is moved to WRITING
+            when RECORDING =>
+                if (play = '1') then
+                    clr_counter <= '1';
+                    state_next <= PLAYING;
+                else
+                    if (rx_done = '1') then
+                        state_next <= WRITING;
+                        inc_counter <= '1';
+                    end if;
+                end if;
+            --Writes currect note to ram
+            when WRITING =>
+                ram_write <= '1';
+                state_next <= RECORDING;
+
             
+            when PLAYING =>
+                if (play = '1') then
+                    if (ascii_t = "11111111") then --empty ram value
+                        clr_counter <= '1';
+                    else
+                        td_on <= '1';
+                        if (ascii_t = "00100000") then -- ascii space which means pause
+                            mute <= '1';
+                            if (td_done = '1') then
+                                inc_counter <= '1';
+                            end if;
+                        else
+                            if (td_done = '1') then
+                                inc_counter <= '1';
+                            end if;
+                        end if;
+                    end if;
+                else
+                    state_next <= IDLE;
+                end if;
+            when others =>
+
         end case;
-                    
-end process;
+
+    end process;
 
 end Behavioral;
