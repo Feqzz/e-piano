@@ -49,79 +49,83 @@ end Control_Path;
 
 architecture Behavioral of Control_Path is
 
-type FSM is (IDLE, RECORDING, PLAYING);
-signal state_reg, state_next : FSM;
-signal int_value : Integer;
+    type FSM is (IDLE, RECORDING, WRITING, PLAYING);
+    signal state_reg, state_next : FSM;
+    signal int_value : Integer;
 
 
 begin
 
-process (clk, rst)
-begin
-    if (rst = '1') then
-        state_reg <= IDLE;
-	elsif rising_edge(clk) then
-		state_reg <= state_next;
-	end if;
-end process;
+    process (clk, rst)
+    begin
+        if (rst = '1') then
+            state_reg <= IDLE;
+        elsif rising_edge(clk) then
+            state_reg <= state_next;
+        end if;
+    end process;
 
-int_value <= to_integer(unsigned(ascii_r));
+    int_value <= to_integer(unsigned(ascii_r));
 
 
-process (state_reg, ascii_r, rx_done, play, td_done)
-begin
-    state_next <= state_reg;
-    mute <= '0';
-    td_on <= '0';
-    ram_write <= '0';
-    inc_counter <= '0';
-    clr_counter <= '0';
-    
-    case state_reg is
-        when IDLE =>
-            clr_counter <= '1';
-            if (rx_done = '1') then
-                if (ascii_r = "01111000") then -- the ascii value is 'x'
-                    state_next <= RECORDING;
-                else
-                    ram_write <= '1';
+    process (state_reg, ascii_r, rx_done, play, td_done)
+    begin
+        state_next <= state_reg;
+        mute <= '0';
+        td_on <= '0';
+        ram_write <= '0';
+        inc_counter <= '0';
+        clr_counter <= '0';
+
+        case state_reg is
+            when IDLE =>
+                clr_counter <= '1';
+                if (rx_done = '1') then
+                    if (ascii_r = "01111000") then -- the ascii value is 'x'
+                        state_next <= RECORDING;
+                    else
+                        ram_write <= '1';
+                    end if;
                 end if;
-            end if;
---        when RECORDING =>
---            if (play = '1') then
---                clr_counter <= '1';
---                state_next <= PLAYING;
---            else
---                if (rx_done = '1') then
---                    ram_write <= '1';
---                    inc_counter <= '1';
---                end if;
---            end if;
---        when PLAYING =>
---            if (play = '1') then
---                if (ascii_t = "11111111") then --empty ram value
---                    clr_counter <= '1';
---                else
---                    if (ascii_t = "00100000") then -- ascii space which means pause
---                        mute <= '1';
---                        td_on <= '1';
---                        if (td_done = '1') then
---                            inc_counter <= '1';
---                        end if;
---                    else
---                        td_on <= '1';
---                        if (td_done = '1') then
---                            inc_counter <= '1';
---                        end if;
---                    end if;
---                end if;
---            else
---                state_next <= IDLE;
---            end if;
+            when RECORDING =>
+                if (play = '1') then
+                    clr_counter <= '1';
+                    state_next <= PLAYING;
+                else
+                    if (rx_done = '1') then
+                        state_next <= WRITING;
+                        inc_counter <= '1';
+                    end if;
+                end if;
+            --Writes currect note to ram
+            when WRITING =>
+                ram_write <= '1';
+                state_next <= RECORDING;
+            when PLAYING =>
+                if (play = '1') then
+                    if (ascii_t = "11111111") then --empty ram value
+                        clr_counter <= '1';
+                    else
+                        if (ascii_t = "01110000") then -- ascii space which means pause
+                            mute <= '1';
+                            td_on <= '1';
+                            if (td_done = '1') then
+                                inc_counter <= '1';
+                            end if;
+                        else
+                            td_on <= '1';
+                            if (td_done = '1') then
+                                inc_counter <= '1';
+                            end if;
+                        end if;
+                    end if;
+                else
+                    state_next <= IDLE;
+                end if;
             when others =>
-            
+
         end case;
-                    
-end process;
+
+    end process;
 
 end Behavioral;
